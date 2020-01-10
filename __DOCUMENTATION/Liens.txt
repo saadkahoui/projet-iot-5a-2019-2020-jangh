@@ -1,0 +1,14 @@
+Liens :
+
+https://www.mikroe.com/speakup-click
+https://www.mikroe.com/motion-click
+
+https://www.arduino.cc/en/tutorial/SoftwareSerialExample : Virtual UART Creation
+
+https://www.bigtronica.com/centro/sistemas-arduino/tarjetas-arduino/11-arduino-mega-2560-5053212000110.html : Arduino MEGA Diagram
+
+https://electronza.com/speakup-arduino-hardware-considerations : SpeakUp Tutorial
+
+https://microcontrollershop.com/download/speakup_click_manual.pdf?osCsid=rjnnk424pshgigr39ej6145fb1 : SpeakUp Manual
+
+https://download.mikroe.com/documents/add-on-boards/click-shields/arduino-mega/arduno-mega-click-shield-manual-v100.pdf : SHIELD Mega Click
