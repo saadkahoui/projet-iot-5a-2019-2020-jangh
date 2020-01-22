@@ -1,30 +1,3 @@
-/***************************************************
-  This is an example for the Adafruit CC3000 Wifi Breakout & Shield
-
-  Designed specifically to work with the Adafruit WiFi products:
-  ----> https://www.adafruit.com/products/1469
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit and open-source hardware by purchasing
-  products from Adafruit!
-
-  Written by Limor Fried & Kevin Townsend for Adafruit Industries.
-  BSD license, all text above must be included in any redistribution
- ****************************************************/
-
-/*
-  This example does a test of the TCP client capability:
-   Initialization
-   Optional: SSID scan
-   AP connection
-   DHCP printout
-   DNS lookup
-   Optional: Ping
-   Connect to website and print out webpage contents
-   Disconnect
-  SmartConfig is still beta and kind of works but is not fully vetted!
-  It might not work on all networks!
-*/
 #include <Adafruit_CC3000.h>
 #include <ccspi.h>
 #include <SPI.h>
@@ -32,26 +5,25 @@
 #include "utility/debug.h"
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-#define F2(progmem_ptr) (const __FlashStringHelper *)progmem_ptr
 
-#define SEALEVELPRESSURE_HPA (1013.25)
 
-Adafruit_BME280 bme; // I2C
+#define SEALEVELPRESSURE_HPA (1034.25) 
+
+Adafruit_BME280 bme; // Création objet "bme" pour le capteur température
 
 int incomingByte = 0; // for incoming serial data
 
-// These are the interrupt and control pins
-#define ADAFRUIT_CC3000_IRQ   3  // MUST be an interrupt pin!
-// These can be any two pins
-#define ADAFRUIT_CC3000_VBAT  47
-#define ADAFRUIT_CC3000_CS    45
-// Use hardware SPI for the remaining pins
-// On an UNO, SCK = 13, MISO = 12, and MOSI = 11
-Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ, ADAFRUIT_CC3000_VBAT,
-                         SPI_CLOCK_DIVIDER); // you can change this clock speed
 
-#define WLAN_SSID       "AndroidAP5886"           // cannot be longer than 32 characters!
-#define WLAN_PASS       "123456789zW"
+#define ADAFRUIT_CC3000_IRQ   3  // Pin interruption pour Serial3
+#define ADAFRUIT_CC3000_VBAT  47 // Pin Enable 
+#define ADAFRUIT_CC3000_CS    45 // Pin ChipSelect
+
+Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ, ADAFRUIT_CC3000_VBAT,
+                         SPI_CLOCK_DIVIDER); // Initialisation du module Weather
+
+#define WLAN_SSID       "COUCOU"           
+#define WLAN_PASS       ""  
+
 // Security can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 #define WLAN_SECURITY   WLAN_SEC_WPA2
 
@@ -59,26 +31,17 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
 // received before closing the connection.  If you know the server
 // you're accessing is quick to respond, you can reduce this value.
 
-// What page to grab!
-#define WEBSITE      "wifitest.adafruit.com"
-#define WEBPAGE      "/testwifi/index.html"
-
-
-/**************************************************************************/
-/*!
-    @brief  Sets up the HW and the CC3000 module (called automatically
-            on startup)
-*/
-/**************************************************************************/
-
 uint32_t ip;
+
+
+ /******************************************************************************************/
 
 void setup(void)
 {
   unsigned status;
-  status = bme.begin(0x76);
+  status = bme.begin(0x76); //Démarrage du Weather en I2C
 
-  Serial1.begin(115200);
+  Serial1.begin(115200); //Démarrage des liaisons série
   Serial.begin(115200);
   Serial.println(F("Hello, CC3000!\n"));
 
@@ -92,8 +55,6 @@ void setup(void)
     while (1);
   }
 
-  // Optional SSID scan
-  // listSSIDResults();
 
   Serial.print(F("\nAttempting to connect to ")); Serial.println(WLAN_SSID);
   if (!cc3000.connectToAP(WLAN_SSID, WLAN_PASS, WLAN_SECURITY)) {
@@ -115,17 +76,17 @@ void setup(void)
     delay(1000);
   }
 
-  ip = cc3000.IP2U32(192, 168, 43, 113);
+  ip = cc3000.IP2U32(192, 168, 4, 1); //Définition ip static du site à visiter
   // Try looking up the website's IP address
-  Serial.print(WEBSITE); Serial.print(F(" -> "));
+  /*Serial.print(WEBSITE); Serial.print(F(" -> "));
   while (ip == 0) {
     if (! cc3000.getHostByName(WEBSITE, &ip)) {
       Serial.println(F("Couldn't resolve!"));
     }
     delay(500);
-  }
+  }*/
 
-  cc3000.printIPdotsRev(ip);
+  cc3000.printIPdotsRev(ip); //Affichage de l'IP
 
   // Optional: Do a ping test on the website
   /*
@@ -165,11 +126,18 @@ void setup(void)
 
 void loop(void)
 {
-  String mystr;
+  float P=0;
+  float A=0;
+  float H=0;
+  float T=0;
+  String P1;
+  String H1;
+  String T1;
+  String A1;
   //Serial.println("Test");
-  if (Serial1.available() > 0) {
+  if (Serial1.available() > 0) { //Attente de réception d'un caractère sur Serial1
     // read the incoming byte:
-    incomingByte = Serial1.read();
+    incomingByte = Serial1.read(); //Lecture du caractère reçu sur Serial1
     
    
 
@@ -177,15 +145,18 @@ void loop(void)
       Serial.print("Pression = ");
       Serial.print(bme.readPressure() / 100.0F);
       Serial.println(" hPa");
+      P=bme.readPressure()/100.0F;
+      
+
+      /*Envoie des données vers un autre appareil du réseau*/
       Adafruit_CC3000_Client www = cc3000.connectTCP(ip, 8000);
        if (www.connected()) {
-        www.print("GET ");
-        www.print("P=");
-        www.print(bme.readPressure()/100.0F);
-        www.print(" HTTP/1.1\r\n");
-        www.print("Host: "); www.print(WEBSITE); www.print("\r\n");
+        //www.print("P=");
+        P1 = String(P);
+        P1="P="+P1;
+        www.print(P1);
+        //www.print(bme.readPressure()/100.0F);
         www.print("\r\n");
-        www.println();
       } else {
         Serial.println(F("Connection failed"));
         return;
@@ -198,15 +169,17 @@ void loop(void)
       Serial.print("Approx. Altitude = ");
       Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
       Serial.println(" m");
+
+      
       Adafruit_CC3000_Client www = cc3000.connectTCP(ip, 8000);
        if (www.connected()) {
-        www.print("GET ");
-        www.print("A=");
-        www.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-        www.print(" HTTP/1.1\r\n");
-        www.print("Host: "); www.print(WEBSITE); www.print("\r\n");
+        A=bme.readAltitude(SEALEVELPRESSURE_HPA);
+        A1= String(A);
+        A1="A="+A1;
+        www.print(A1);
+        //www.print(A);
         www.print("\r\n");
-        www.println();
+        //www.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
       } else {
         Serial.println(F("Connection failed"));
         return;
@@ -217,15 +190,16 @@ void loop(void)
       Serial.print("Humidité = ");
       Serial.print(bme.readHumidity());
       Serial.println(" %");
+
+      
       Adafruit_CC3000_Client www = cc3000.connectTCP(ip, 8000);
        if (www.connected()) {
-        www.print("GET ");
-        www.print("H=");
-        www.print(bme.readHumidity());
-        www.print(" HTTP/1.1\r\n");
-        www.print("Host: "); www.print(WEBSITE); www.print("\r\n");
+        //www.print("H=");
+        H=bme.readHumidity();
+        H1=String(H);
+        H1="H="+H1;
+        www.print(H1);
         www.print("\r\n");
-        www.println();
       } else {
         Serial.println(F("Connection failed"));
         return;
@@ -237,15 +211,16 @@ void loop(void)
       Serial.print(bme.readTemperature());
       Serial.println(" *C");
       //consumer_key = String("CPCPU");
+
+      
       Adafruit_CC3000_Client www = cc3000.connectTCP(ip, 8000);
        if (www.connected()) {
-        www.print("GET ");
-        www.print("t=");
-        www.print(bme.readTemperature());
-        www.print(" HTTP/1.1\r\n");
-        www.print("Host: "); www.print(WEBSITE); www.print("\r\n");
+        //www.print("t=");
+        T=bme.readTemperature();
+        T1=String(T);
+        T1="T="+T1;
+        www.print(T1);
         www.print("\r\n");
-        www.println();
       } else {
         Serial.println(F("Connection failed"));
         return;
@@ -261,21 +236,21 @@ void loop(void)
       Serial.print("\n\rHumidité = ");
       Serial.print(bme.readHumidity());
       //consumer_key = String("CPCPU");
+
+      
       Adafruit_CC3000_Client www = cc3000.connectTCP(ip, 8000);
        if (www.connected()) {
-        www.print("GET ");
-        www.print("T=");
-        www.print(bme.readTemperature());
-        www.print("P=");
-        www.print(bme.readPressure()/100.0F);
-        www.print("H=");
-        www.print(bme.readHumidity());
-        www.print("A=");
-        www.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-        www.print(" HTTP/1.1\r\n");
-        www.print("Host: "); www.print(WEBSITE); www.print("\r\n");
-        www.print("\r\n");
-        www.println();
+        www.print("\nT=");
+        www.println(bme.readTemperature());
+        www.print("\n");
+        www.print("\nP=");
+        www.println(bme.readPressure()/100.0F);
+        www.print("\n");
+        www.print("\nH=");
+        www.println(bme.readHumidity());
+        www.print("\n");
+        www.print("\nA=");
+        www.println(bme.readAltitude(SEALEVELPRESSURE_HPA));
       } else {
         Serial.println(F("Connection failed"));
         return;
@@ -285,43 +260,7 @@ void loop(void)
   }
 }
 
-/**************************************************************************/
-/*!
-    @brief  Begins an SSID scan and prints out all the visible networks
-*/
-/**************************************************************************/
 
-void listSSIDResults(void)
-{
-  uint32_t index;
-  uint8_t valid, rssi, sec;
-  char ssidname[33];
-
-  if (!cc3000.startSSIDscan(&index)) {
-    Serial.println(F("SSID scan failed!"));
-    return;
-  }
-
-  Serial.print(F("Networks found: ")); Serial.println(index);
-  Serial.println(F("================================================"));
-
-  while (index) {
-    index--;
-
-    valid = cc3000.getNextSSID(&rssi, &sec, ssidname);
-
-    Serial.print(F("SSID Name    : ")); Serial.print(ssidname);
-    Serial.println();
-    Serial.print(F("RSSI         : "));
-    Serial.println(rssi);
-    Serial.print(F("Security Mode: "));
-    Serial.println(sec);
-    Serial.println();
-  }
-  Serial.println(F("================================================"));
-
-  cc3000.stopSSIDscan();
-}
 
 /**************************************************************************/
 /*!
