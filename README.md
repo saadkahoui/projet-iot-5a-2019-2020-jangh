@@ -47,34 +47,34 @@ Modules WiFi : CC3000 Click et WiFi3 Click(ESP8266)
 #### Le 20 janvier 2020 :
 
 - Hamza  :
-* Mise en place du BeagleBone : En cours de finition
+Mise en place du BeagleBone : En cours de finition
 
 - Nacereddine :
-* Mise en place du Cloud avec Ubidots : Fait
-* Mise en place de l'envoie de donnée : En cours de finition
+Mise en place du Cloud avec Ubidots : Fait
+Mise en place de l'envoie de donnée : En cours de finition
 
 - Jérémy et Guillaume :
-* Mise en place du Wifi CC3000 : Gros problème lors de la mise en place, désormais fonctionnel
-* Test fonctionnement envoie des données sur un serveur HTTP tiers : Fonctionnel
+Mise en place du Wifi CC3000 : Gros problème lors de la mise en place, désormais fonctionnel
+Test fonctionnement envoie des données sur un serveur HTTP tiers : Fonctionnel
 
 - Guillaume et Audrey :
-* Configuration du Click Weather : Fait
-* Configuration du SpeakUp Click : Fait
+Configuration du Click Weather : Fait
+Configuration du SpeakUp Click : Fait
 
 - Audrey :
-* Recherche documentaire sur les composant pour aider Guillaume et Jérémy à résoudre les problèmes survenus
+Recherche documentaire sur les composant pour aider Guillaume et Jérémy à résoudre les problèmes survenus
 
 
 #### LE 21 janvier 2020 :
 
 - Tout le monde :
-* Configuration du BeagleBone : Problème de version sur le BeagleBone, résolution toujours en cours, Tests de toutes les versions possibles
+Configuration du BeagleBone : Problème de version sur le BeagleBone, résolution toujours en cours, Tests de toutes les versions possibles
 
 - Jérémy, Guillaume et Audrey :
-* Carte Wifi3 click (ESP8266) : Recherche documentaire pour configuration, Standby le temps de finir la configuration du BeagleBone
+Carte Wifi3 click (ESP8266) : Recherche documentaire pour configuration, Standby le temps de finir la configuration du BeagleBone
 
 - Nacereddine :
-* Configuration du cloud : En cours
+Configuration du cloud : En cours
 
 
 
