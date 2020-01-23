@@ -63,7 +63,7 @@ Il faut finalement réaliser le code permettant de différencier chaque récepti
 
 Ce capteur ne nécessite pas de configuration particulière. Il faut installer la bibliothèque associée. Soit l'installer depuis le lien suivant : https://github.com/adafruit/Adafruit_BME280_Library; soit l'installer directement depuis l'IDE Arduino via l'onglet Croquis-->Inclure une bibliothèque.
 
-Une fois la bibliothèque installée, des exemples d'utilisation du capteur sont à disposition et contiennent les fonctions à utiliser pour récupérer les différentes valeures du capteur.<b>Attention : </b>Il faut également rajouter en début de code la ligne bme.begin(0x76), le 0x76 permettant de lancer le capteur en mode I2C et non pas en Serial. 
+Une fois la bibliothèque installée, des exemples d'utilisation du capteur sont à disposition et contiennent les fonctions à utiliser pour récupérer les différentes valeures du capteur. <b>Attention : </b>Il faut également rajouter en début de code la ligne bme.begin(0x76), le 0x76 permettant de lancer le capteur en mode I2C et non pas en Serial. 
 
 
 ### Deuxième étape : Capteur WiFi CC3000
@@ -71,7 +71,18 @@ Une fois la bibliothèque installée, des exemples d'utilisation du capteur sont
 Ce capteur qui à pour but de se connecter à un point d'accès a besoin d'une bibliothèque spéciale pour fonctionner. Pour cela, il faut installer la bibliothèqe associée au CC3000 : https://github.com/adafruit/Adafruit_CC3000_Library
 
 Une fois la bibliothèque installée, un code test est disponible : buildtest. Ce code permet de tester le fonctionnement du CC3000. Ce code fonctionne directement sur un Arduino Uno. Cependant nous utilisons un Arduino Mega et les pins sont donc différents. Le Socket1 ne peut pas être utilisé pour le CC3000 car le pin d'interruption n'en est pas un sur ce Socket. Pour le Socket2, les digital pins à utiliser sont les suivants : Socket2(Int : 2, EN : 48, CS : 46) et Socket3(Int : 3, EN : 47, CS : 45).
-De plus pour fonctionner sur un Arduino Mega
+De plus pour fonctionner sur un Arduino Mega il faut souder certains pins entre eux car le pin d'interruption demandé n'est pas au bon endroit sur l'Arduino. Voici une photo montrant les pins à souder : 
+
+![alt-text](https://github.com/CPELyon/projet-iot-5a-2019-2020-jangh/blob/master/images/SoudageCC3000_LI.jpg)
+
+Ces changements réalisés, le code est fonctionnel.
+
+### Troisième étape : Fusion des codes des capteurs
+
+Une fois les codes réalisés et fonctionnels chacun de leur côté, il suffit de les regrouper de façon à ce qu'il réalise la chaine voulue. Pour ce projet, on commence par l'initialisation et la connexion du CC3000 à un point d'accès, puis on attend un mot de l'utilisateur comme "Température", et en fonction de ce mot, on envoie via le module WiFi la valeur voulue.
+
+### Quatrième étape : Configuration du BeagleBoneBlack(BBB)
+
 
 
 ## Conclusions et recommandations
