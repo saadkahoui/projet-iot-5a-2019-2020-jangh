@@ -24,6 +24,7 @@ Le sujet initial est dans le fichier [sujet.md](sujet.md)
 Vous devez décrire ici les fonctionnalités et applications de la maquette que vous avez décidé d'implementer.
 Ce projet a pour but de réaliser une station météo connectée avec reconnaissance vocale. Pour ce faire nous avons à disposition différents capteurs, un BeagleBoneBlack et un Arduino Mega.
 
+
 ### Capteurs
 
 Capteur météo (Weather Click)
@@ -31,6 +32,7 @@ Capteur météo (Weather Click)
 Capteur de voix (SpeakUp Click)
 
 Modules WiFi : CC3000 Click et WiFi3 Click(ESP8266)
+
 
 ### Cas d'utilisation
 
@@ -45,6 +47,7 @@ Modules WiFi : CC3000 Click et WiFi3 Click(ESP8266)
 
 
 ## Procédure de mise en place de votre chaîne IoT
+
 
 ### Première étape : Les Capteurs
 
@@ -77,9 +80,11 @@ De plus pour fonctionner sur un Arduino Mega il faut souder certains pins entre 
 
 Ces changements réalisés, le code est fonctionnel.
 
+
 ### Troisième étape : Fusion des codes des capteurs
 
 Une fois les codes réalisés et fonctionnels chacun de leur côté, il suffit de les regrouper de façon à ce qu'il réalise la chaine voulue. Pour ce projet, on commence par l'initialisation et la connexion du CC3000 à un point d'accès, puis on attend un mot de l'utilisateur comme "Température", et en fonction de ce mot, on envoie via le module WiFi la valeur voulue.
+
 
 ### Quatrième étape : Configuration du BeagleBoneBlack(BBB)
 
@@ -100,7 +105,21 @@ Il faut également supprimer la fin de la ligne après le "quite" : "cape_univer
 
 Une fois cela réalisé, le prochain branchement du module CC3000 devrait afficher un "Ready" dans le ttyO2.
 
+
 ### Sixième étape : Cloud avec Ubidots
+
+Concernant le cloud, Si on a un Raspberry Pi, Beaglebone ou un autre appareil basé sur Linux, et on souhaite interagir avec Ubidots, voici un descriptif qui montre comment on a créé notre cloud sous Ubidots et comment on a pu le tester avec les avantages de ce dernier. Pour notre cas on a travaillé avec un Beaglebone.
+
+On a commencé par créer un compte ubidots sur https://industrial.ubidots.com, avec ce compte on a une version de test gratuite pendant 30 jours où on peut utiliser toutes les fonctionnalités d'Ubidots mais parfois avec des limitations qu'on verra plus tard dans ce descriptif.
+
+On a créé par la suite un device qu'on a appelé "jangh" sur lequel on a ajouté les variables qu'on souhaite avoir sur le cloud comme données depuis le beaglebone, les variables sont les suivantes : Lattitude, Temperature, Humidity, Pressure chacune de ces variables a une "API label" qu'on utilisera plus tard dans notre script qui permet d'envoyer les données.
+
+Ensuite je me suis penché sur un script python (ci-dessous) qui va me permettre de simuler l'envoie les données, dans un premier temps j'ai commencé par envoyer des données random afin de tester mon script et dans un deuxième temps faire la connexion entre les données reçu dans le beaglebone et le cloud. Il faut tout d'abord s'assurer qu'on a bien python installer ainsi que certaines bibliothèques (json, requests, ...) voir la documentation sur internet pour l'installation.
+
+Sur ubidots nous avons déjà notre device mise en place et paramétré à recevoir les valeurs concernant ses capteurs qui sont  Lattitude, Temperature, Humidity et Pressure. Pour chacun de ses capteurs on peut voir un graphe de toutes les valeurs reçu dans le temps depuis la mise en place du device. Ensuite pour permettre à tout utilsateur de visualiser les données envoyé par notre device (weather station) de façon simplifiée nous avons mis en place un dashboard regroupant toute les données affichées à l'aide de widget et de graphique.
+
+Ensuite nous avons mis en place des alertes sur les différentes variables avec des règles d'astreinte comme par exemple si la température dépasse un certain seuil on envoie un message sur telegram (la semaine de 00:00-23h49), un mail (la semaine de 08:00-18:00), un sms (le week-end de 00:00-23h59). Nous avons aussi mis en place un envoie de rapport quotidien nous résumant ce qu'il s'est passé la veille.
+
 
 ## Conclusions et recommandations
 
