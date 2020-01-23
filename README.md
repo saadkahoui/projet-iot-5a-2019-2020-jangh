@@ -136,6 +136,14 @@ Pour configurer le BeagleBone, il faut tout d'abord flasher la carte SD avec une
 
 Une fois la carte SD flashée, il suffit de l'insérer dans le BBB et de brancher celui-ci à un ordinateur. On peut ensuite se connecter via l'adresse du BBB : 192.168.7.2.
 
+Après avoir installer et lancer le beagle bone, il est nécessaire de connecter le beagle bone à internet pour le mettre à jour. Pour cela on vas utiliser l'ordinateur de CPE comme passerelle avec un pfsense. Cela se passe en plusieurs étapes : 
+* Il faut connecter un cable éthernet entre le beagle bone et l'ordinateur.
+* Il faut définir une adresse ip sur eth0 du beagle bone. (via /etc/network/interfaces)
+* Il faut installer un pfsense et mettre en WAN le lien vers CPE et en LAN le lien vers le beagle bone (même réseau que le beagle bone)
+* Il faut également paramétrer le DNS, pour cela 2 solutions est possible, soit faire un DNS forwarder ou bien mettre l'adresse du DNS de CPE.
+* Changer l'adresse du DNS (soit DNS CPE ou DNS pfsense) dans le fichier /etc/resolv.conf
+* Maintenant nous avons internet au sein du beagle bone et donc pouvons mettre à jour celui-ci et installer les packages nécessaires.
+
 
 ### Cinquième étape : Configuration du WiFi3 Click
 
