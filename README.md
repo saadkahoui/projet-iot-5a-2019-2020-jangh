@@ -47,7 +47,7 @@ Modules WiFi : CC3000 Click et WiFi3 Click(ESP8266)
 #### Le 20 janvier 2020 :
 
 - Hamza  :
-Mise en place du BeagleBone : En cours de finition
+*Mise en place du BeagleBone : En cours de finition
 
 - Nacereddine :
 Mise en place du Cloud avec Ubidots : Fait
