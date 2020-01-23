@@ -103,3 +103,7 @@ Une fois cela réalisé, le prochain branchement du module CC3000 devrait affich
 ### Sixième étape : Cloud avec Ubidots
 
 ## Conclusions et recommandations
+
+L'utilisation des clicks facilite grandement le projet. En effet, tous les capteurs possèdent une documentation associée permettant facilement de comprendre comment les utiliser et les faire fonctionner. La partie la plus compliquée est la mise en place de la partie communication entre l'Arduino et le BBB. En effet, les modules comme le WiFi3 Click n'ont que très peu de documentation. Il faut donc savoir que ce Click utilise un module WiFi ESP8266 et que ce sont donc des documentations sur ce module qu'il faut rechercher. 
+
+La principale recommendation pour ce genre de projet est de bien comprendre le fonctionnement de chaque module afin d'avoir une vision globale du projet et à tout moment de savoir dans quel direction s'orienter pour faire fonctionner la globalité de la maquette.
