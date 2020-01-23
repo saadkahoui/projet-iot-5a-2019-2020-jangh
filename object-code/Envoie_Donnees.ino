@@ -28,7 +28,7 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
 #define WLAN_SECURITY   WLAN_SEC_WPA2
 
 #define IDLE_TIMEOUT_MS  3000      // Amount of time to wait (in milliseconds) with no data 
-// received before closing the connection.  If you know the server
+// received before closing the connection. If you know the server
 // you're accessing is quick to respond, you can reduce this value.
 
 uint32_t ip;
