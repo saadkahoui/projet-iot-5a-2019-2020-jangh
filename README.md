@@ -44,6 +44,50 @@ Modules WiFi : CC3000 Click et WiFi3 Click(ESP8266)
 
 ### Suivi journalier
 
+#### Le 20 janvier 2020 :
+
+- Hamza  :
+* Mise en place du BeagleBone : En cours de finition
+
+- Nacereddine :
+* Mise en place du Cloud avec Ubidots : Fait
+* Mise en place de l'envoie de donnée : En cours de finition
+
+- Jérémy et Guillaume :
+* Mise en place du Wifi CC3000 : Gros problème lors de la mise en place, désormais fonctionnel
+* Test fonctionnement envoie des données sur un serveur HTTP tiers : Fonctionnel
+
+- Guillaume et Audrey :
+* Configuration du Click Weather : Fait
+* Configuration du SpeakUp Click : Fait
+
+- Audrey :
+* Recherche documentaire sur les composant pour aider Guillaume et Jérémy à résoudre les problèmes survenus
+
+
+#### LE 21 janvier 2020 :
+
+- Tout le monde :
+* Configuration du BeagleBone : Problème de version sur le BeagleBone, résolution toujours en cours, Tests de toutes les versions possibles
+
+- Jérémy, Guillaume et Audrey :
+* Carte Wifi3 click (ESP8266) : Recherche documentaire pour configuration, Standby le temps de finir la configuration du BeagleBone
+
+- Nacereddine :
+* Configuration du cloud : En cours
+
+
+
+#### Le 22 janvier 2020 :
+
+- Configuration beagle bone : fini
+- Configuration wifi 3 click : fini
+- Wifi 3 click : HS, utilisation de la carte autre groupe + test flash de l'ancienne carte.
+- Envoi des données jusqu'au cloud : fini
+- Mise en place du tutoriel : à faire
+- Différents tests à faire ( format, affichage, etc)
+
+Au cours de cette journée, tous les membres de l'équipe ont travaillé de manière conjointe sur chacun des aspects
 
 
 ## Procédure de mise en place de votre chaîne IoT
