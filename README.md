@@ -83,6 +83,23 @@ Une fois les codes réalisés et fonctionnels chacun de leur côté, il suffit d
 
 ### Quatrième étape : Configuration du BeagleBoneBlack(BBB)
 
+Pour configurer le BeagleBone, il faut tout d'abord flasher la carte SD avec une certaine version de Debian afin de pouvoir par la suite configurer le module WiFi3. Afin de flasher la SD, on utilise le logiciel BalenaEtcher et la version de Debian suivante : https://debian.beagleboard.org/images/bone-debian-8.6-iot-armhf-2016-11-06-4gb.img.xz
 
+Une fois la carte SD flashée, il suffit de l'insérer dans le BBB et de brancher celui-ci à un ordinateur. On peut ensuite se connecter via l'adresse du BBB : 192.168.7.2.
+
+
+### Cinquième étape : Configuration du WiFi3 Click
+
+Pour configurer le WiFi3, nous avons suivi le tutoriel suivant : https://v37e00e.blogspot.com/2015/12/beaglebone-black-bbb-uart2-with-esp8266.html
+
+Ce tutoriel permet d'activer l'UART2 et d'autoriser la communication entre le module WiFi et le BBB. Le Socket1 du BBB correpsond au ttyO2-UART2.
+
+Il faut bien décommenter toutes les lignes dans le /boot/uENV.txt commençant par dtb=... 
+
+Il faut également supprimer la fin de la ligne après le "quite" : "cape_universal=enable"
+
+Une fois cela réalisé, le prochain branchement du module CC3000 devrait afficher un "Ready" dans le ttyO2.
+
+### Sixième étape : Cloud avec Ubidots
 
 ## Conclusions et recommandations
