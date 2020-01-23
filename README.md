@@ -20,8 +20,6 @@ Nacereddine TOUMI
 
 ## Description du Projet
 
-Le sujet initial est dans le fichier [sujet.md](sujet.md)
-Vous devez décrire ici les fonctionnalités et applications de la maquette que vous avez décidé d'implementer.
 Ce projet a pour but de réaliser une station météo connectée avec reconnaissance vocale. Pour ce faire nous avons à disposition différents capteurs, un BeagleBoneBlack et un Arduino Mega.
 
 
@@ -36,11 +34,11 @@ Modules WiFi : CC3000 Click et WiFi3 Click(ESP8266)
 
 ### Cas d'utilisation
 
+Des interrogations sur le temps d'aujourd'hui ? La température, l'humidité ou la pression ? Une question sur l'altitude à laquelle vous vous trouvez ? 
+Placez-vous à côté de notre station météo, dites ce que vous voulez savoir et recevez les résultats en direct sur notre page internet : https://industrial.ubidots.com/app/dashboards/public/dashboard/St9d6GivnkqBV0U_2wHTHSK0fOA?fbclid=IwAR1crmr2ZvAUNJuVmGOIwmP5NeT6m2yFwdPulynckhOnAektSk0R9Qf-EM0
 
 
 ## Répartition des tâches
-
-
 
 ### Suivi journalier
 
@@ -148,6 +146,50 @@ Après avoir installer et lancer le beagle bone, il est nécessaire de connecter
 ### Cinquième étape : Configuration du WiFi3 Click
 
 Pour configurer le WiFi3, nous avons suivi le tutoriel suivant : https://v37e00e.blogspot.com/2015/12/beaglebone-black-bbb-uart2-with-esp8266.html
+
+```
+Pour désactiver l'hdmi car celui-ci utilise le Serial2
+changed /boot/uEnv.txt to disable HDMI:
+##BeagleBone Black: HDMI (Audio/Video) disabled:
+dtb=am335x-boneblack-emmc-overlay.dtb
+Reboot
+
+Pour activer le Serial2 : 
+export SLOTS=/sys/devices/platform/bone_capemgr/slots
+echo 'BB-UART2' > $SLOTS
+
+Check the setup
+cat $SLOTS 
+0: PF----  -1
+1: PF----  -1
+2: PF----  -1
+3: PF----  -1
+4: P-O-L-   0 Override Board Name,00A0,Override Manuf,BB-UART2
+
+root@beaglebone:~# ls /dev/ttyO*
+/dev/ttyO0  /dev/ttyO2
+
+Setup the serial port
+root@beaglebone:~# stty -F /dev/ttyO2 115200 raw -echo
+
+Wire the BBB and the ESP8266
+BBB <=========>  ESP8266
+P9.1 (GRD) ======  GRD  (leave off for now)
+P9.3 (3v3) ======= VCC
+P9.4 (3v3) ======= CH_PD
+P9.21 (TXD) ====== RXD
+P9.22 (RXD) ====== TXD
+
+Putty Session 1
+cat /dev/ttyO2
+
+Connect the GRD on the ESP8266 => should see the ESP initialize with "ready" message
+
+Putty Session 2
+run some AT commands
+root@beaglebone:~# echo $'AT\r' > /dev/ttyO2
+root@beaglebone:~# echo $'AT+GMR\r' > /dev/ttyO2
+```
 
 Ce tutoriel permet d'activer l'UART2 et d'autoriser la communication entre le module WiFi et le BBB. Le Socket1 du BBB correpsond au ttyO2-UART2.
 
